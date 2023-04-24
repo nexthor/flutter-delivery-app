@@ -1,17 +1,12 @@
-import 'package:delivery_app/src/pages/login/login_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginController controller = Get.put(LoginController());
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: SizedBox(
-        height: 50,
-        child: _textDontHaveAccount(),
-      ),
+      // no olvidar hacer el wrap de cada pantalla, para evitar el error del overflow
       body: SingleChildScrollView(
         child: Stack(
           // posicionar elementos unos encima de otros (layers)
@@ -21,7 +16,6 @@ class LoginPage extends StatelessWidget {
               // posicionar elementos uno debajo del otro
               children: [
                 _imageCover(),
-                _textAppName(),
               ],
             ),
             _boxForm(context),
@@ -39,21 +33,10 @@ class LoginPage extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 10),
         alignment: Alignment.center,
         child: Image.asset(
-          "assets/images/delivery_icon.png",
+          "assets/images/user_register.png",
           width: 130,
           height: 130,
         ),
-      ),
-    );
-  }
-
-  Widget _textAppName() {
-    return const Text(
-      "Delivery App",
-      style: TextStyle(
-        fontSize: 25,
-        fontWeight: FontWeight.bold,
-        color: Color.fromRGBO(0, 0, 0, 1),
       ),
     );
   }
@@ -66,34 +49,13 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _textDontHaveAccount() {
-    return Row(
-      // ubica elementos uno al lado de otros de manera horizontal
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("¿No tienes cuenta?"),
-        const SizedBox(width: 5),
-        GestureDetector(
-          onTap: () => controller.goToRegisterPage(),
-          child: const Text(
-            "Registrate aqui",
-            style: TextStyle(
-              color: Colors.amber,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
   Widget _boxForm(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: MediaQuery.of(context).size.height * 0.7,
       margin: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.35,
-        left: 50,
-        right: 50,
+        top: MediaQuery.of(context).size.height * 0.25,
+        left: 20,
+        right: 20,
       ),
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -104,7 +66,11 @@ class LoginPage extends StatelessWidget {
       child: Column(children: [
         _boxFormHeaderText(),
         _boxFormEmailInput(),
+        _boxFormNameInput(),
+        _boxFormLastNameInput(),
+        _boxFormPhoneInput(),
         _boxFormPasswordInput(),
+        _boxFormRepeatPasswordInput(),
         _boxFormButtonSubmit(),
       ]),
     );
@@ -112,8 +78,8 @@ class LoginPage extends StatelessWidget {
 
   Widget _boxFormHeaderText() {
     return Container(
-        margin: const EdgeInsets.only(top: 20, bottom: 30),
-        child: const Text("INGRESAR"));
+        margin: const EdgeInsets.only(top: 20, bottom: 10),
+        child: const Text("REGISTRO"));
   }
 
   Widget _boxFormEmailInput() {
@@ -125,6 +91,48 @@ class LoginPage extends StatelessWidget {
             hintText: "Correo Electronico",
             prefixIcon: Icon(
               Icons.email,
+            )),
+      ),
+    );
+  }
+
+  Widget _boxFormNameInput() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: const TextField(
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+            hintText: "Nombre",
+            prefixIcon: Icon(
+              Icons.person,
+            )),
+      ),
+    );
+  }
+
+  Widget _boxFormLastNameInput() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: const TextField(
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+            hintText: "Apellido",
+            prefixIcon: Icon(
+              Icons.person_outline,
+            )),
+      ),
+    );
+  }
+
+  Widget _boxFormPhoneInput() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: const TextField(
+        keyboardType: TextInputType.phone,
+        decoration: InputDecoration(
+            hintText: "Telefono",
+            prefixIcon: Icon(
+              Icons.phone,
             )),
       ),
     );
@@ -145,6 +153,21 @@ class LoginPage extends StatelessWidget {
     );
   }
 
+  Widget _boxFormRepeatPasswordInput() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: const TextField(
+        keyboardType: TextInputType.text,
+        obscureText: true,
+        decoration: InputDecoration(
+            hintText: "Confirmar Clave",
+            prefixIcon: Icon(
+              Icons.lock,
+            )),
+      ),
+    );
+  }
+
   Widget _boxFormButtonSubmit() {
     return Container(
       width: double.infinity,
@@ -152,7 +175,7 @@ class LoginPage extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {},
         child: const Text(
-          "ENTRAR",
+          "REGISTRARSE",
           style: TextStyle(color: Colors.black),
         ),
       ),
