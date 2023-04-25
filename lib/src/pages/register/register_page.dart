@@ -1,41 +1,51 @@
+import 'package:delivery_app/src/pages/register/register_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+  RegisterController controller = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // no olvidar hacer el wrap de cada pantalla, para evitar el error del overflow
       body: SingleChildScrollView(
-        child: Stack(
-          // posicionar elementos unos encima de otros (layers)
-          children: [
-            _backgroundCover(context),
-            Column(
-              // posicionar elementos uno debajo del otro
-              children: [
-                _imageCover(),
-              ],
-            ),
-            _boxForm(context),
-          ],
-        ),
-      ),
+          child: Stack(
+        children: [
+          _backgroundCover(context),
+          _boxForm(context),
+          _buttonBack(),
+          _imageCover(),
+        ],
+      )),
     );
   }
 
   // private methods
+  Widget _buttonBack() {
+    return SafeArea(
+        child: Container(
+      child: IconButton(
+        onPressed: () => Get.back(),
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+        ),
+      ),
+    ));
+  }
+
   Widget _imageCover() {
     return SafeArea(
-      // coloca los elementos justo debajo de la barra de estado de los celulares
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        alignment: Alignment.center,
-        child: Image.asset(
-          "assets/images/user_register.png",
-          width: 130,
-          height: 130,
+        alignment: Alignment.topCenter,
+        margin: const EdgeInsets.only(top: 10),
+        child: GestureDetector(
+          onTap: () {},
+          child: const CircleAvatar(
+            backgroundImage: AssetImage("assets/images/user_register.png"),
+            radius: 50,
+            backgroundColor: Colors.white,
+          ),
         ),
       ),
     );
@@ -85,9 +95,10 @@ class RegisterPage extends StatelessWidget {
   Widget _boxFormEmailInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: const TextField(
+      child: TextField(
+        controller: controller.emailController,
         keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: "Correo Electronico",
             prefixIcon: Icon(
               Icons.email,
@@ -99,9 +110,10 @@ class RegisterPage extends StatelessWidget {
   Widget _boxFormNameInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: const TextField(
+      child: TextField(
+        controller: controller.nameController,
         keyboardType: TextInputType.text,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: "Nombre",
             prefixIcon: Icon(
               Icons.person,
@@ -113,9 +125,10 @@ class RegisterPage extends StatelessWidget {
   Widget _boxFormLastNameInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: const TextField(
+      child: TextField(
+        controller: controller.lastNameController,
         keyboardType: TextInputType.text,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: "Apellido",
             prefixIcon: Icon(
               Icons.person_outline,
@@ -127,9 +140,10 @@ class RegisterPage extends StatelessWidget {
   Widget _boxFormPhoneInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: const TextField(
+      child: TextField(
+        controller: controller.phoneController,
         keyboardType: TextInputType.phone,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: "Telefono",
             prefixIcon: Icon(
               Icons.phone,
@@ -141,10 +155,11 @@ class RegisterPage extends StatelessWidget {
   Widget _boxFormPasswordInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: const TextField(
+      child: TextField(
+        controller: controller.passwordController,
         keyboardType: TextInputType.text,
         obscureText: true,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: "Clave",
             prefixIcon: Icon(
               Icons.lock,
@@ -156,10 +171,11 @@ class RegisterPage extends StatelessWidget {
   Widget _boxFormRepeatPasswordInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: const TextField(
+      child: TextField(
+        controller: controller.confirmPasswordController,
         keyboardType: TextInputType.text,
         obscureText: true,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: "Confirmar Clave",
             prefixIcon: Icon(
               Icons.lock,
@@ -173,7 +189,7 @@ class RegisterPage extends StatelessWidget {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () => controller.register(),
         child: const Text(
           "REGISTRARSE",
           style: TextStyle(color: Colors.black),

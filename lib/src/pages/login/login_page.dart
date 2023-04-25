@@ -1,6 +1,6 @@
-import 'package:delivery_app/src/pages/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:delivery_app/src/pages/login/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   LoginController controller = Get.put(LoginController());
@@ -119,9 +119,10 @@ class LoginPage extends StatelessWidget {
   Widget _boxFormEmailInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: const TextField(
+      child: TextField(
+        controller: controller.emailController,
         keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: "Correo Electronico",
             prefixIcon: Icon(
               Icons.email,
@@ -133,10 +134,11 @@ class LoginPage extends StatelessWidget {
   Widget _boxFormPasswordInput() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: const TextField(
+      child: TextField(
+        controller: controller.passwordController,
         keyboardType: TextInputType.text,
         obscureText: true,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             hintText: "Clave",
             prefixIcon: Icon(
               Icons.lock,
@@ -150,7 +152,7 @@ class LoginPage extends StatelessWidget {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () => controller.login(),
         child: const Text(
           "ENTRAR",
           style: TextStyle(color: Colors.black),
