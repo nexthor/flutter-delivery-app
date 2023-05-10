@@ -1,3 +1,5 @@
+import 'package:delivery_app/src/models/user.dart';
+import 'package:delivery_app/src/providers/users_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,8 +10,9 @@ class RegisterController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  UsersProvider usersProvider = UsersProvider();
 
-  void register() {
+  void register() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
     String name = nameController.text;
@@ -18,6 +21,15 @@ class RegisterController extends GetxController {
     String phone = phoneController.text;
 
     if (isValidForm(name, lastName, email, phone, password, confirPassword)) {
+      User user = User(
+          email: email,
+          name: name,
+          lastName: lastName,
+          phone: phone,
+          password: password);
+      Response response = await usersProvider.create(user);
+
+      print('RESPONSE: ${response.body}');
       Get.snackbar(
           'Formulario valido', 'Estas listo para enviar la peticion https');
     }
