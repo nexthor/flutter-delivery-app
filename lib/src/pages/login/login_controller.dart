@@ -1,21 +1,31 @@
+import 'package:delivery_app/src/models/reponse_api.dart';
+import 'package:delivery_app/src/providers/users_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  UsersProvider usersProvider = UsersProvider();
 
   void goToRegisterPage() {
     Get.toNamed("/register");
   }
 
-  void login() {
+  void login() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
     if (isValidForm(email, password)) {
-      Get.snackbar(
-          'Formulario valido', 'Estas listo para enviar la peticion https');
+      ResponseApi responseApi = await usersProvider.login(email, password);
+
+      print("Response Api ${responseApi.toJson()}");
+
+      if (responseApi.success == true) {
+        Get.snackbar('Sesion', responseApi.message ?? '');
+      } else {
+        Get.snackbar('Error', responseApi.message ?? '');
+      }
     }
   }
 
