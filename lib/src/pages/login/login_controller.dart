@@ -2,6 +2,7 @@ import 'package:delivery_app/src/models/reponse_api.dart';
 import 'package:delivery_app/src/providers/users_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -22,11 +23,16 @@ class LoginController extends GetxController {
       print("Response Api ${responseApi.toJson()}");
 
       if (responseApi.success == true) {
-        Get.snackbar('Sesion', responseApi.message ?? '');
+        GetStorage().write("user", responseApi.data);
+        goToHomePage();
       } else {
         Get.snackbar('Error', responseApi.message ?? '');
       }
     }
+  }
+
+  void goToHomePage() {
+    Get.toNamed("/home");
   }
 
   bool isValidForm(String email, String password) {
